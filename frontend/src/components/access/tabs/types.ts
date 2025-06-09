@@ -1,5 +1,5 @@
  export interface TabItem {
-        id: string;
+        id: TabKeys;
         label: string
     }
 

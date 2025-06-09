@@ -1,64 +1,104 @@
-import { Mail, Lock, Eye, EyeOff,  } from "lucide-react"
-import { useState } from "preact/hooks"
-import { useForm } from "../../hooks/form/use-form"
+import { Mail, Lock, Eye, EyeOff, UserRound } from "lucide-preact";
+import { useState } from "preact/hooks";
+import { useForm } from "../../hooks/form/use-form";
 
 export default function SignUp() {
+  const [isPwdVisible, setIsPwdVisible] = useState(false);
 
-    const [isPwdVisible, setIsPwdVisible] = useState(false);
+  const { formData, handleChange, error, isSuccess } = useForm({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-    const { formData, handleChange } = useForm({
-        "name": "",
-        "email": "",
-        "password": ""
-    })
+  const handleShowPassword = () => setIsPwdVisible((x) => !x);
 
-    const handleShowPassword = () => setIsPwdVisible(x => !x);
+  return (
+    <>
+      <div className="space-y-2 px-3 rounded-xs outline-2 outline-gray-200">
+        <form className="space-y-5 p-3">
+          <div className="space-y-2">
+            <h1 className="text-xl">Create Account</h1>
+            <p class="text-xs">
+              Fill in the following details to create your account
+            </p>
+          </div>
 
+          <div className="space-y-2">
+            <label htmlFor="full-name">Full Name</label>
+            <div className="relative">
+              <UserRound className="absolute h-4 top-3 left-2 text-gray-400" />
+              <input
+                id="full-name"
+                className="inline-flex h-10 pl-9 items-center w-full outline-1 outline-gray-200 focus:outline-gray-400 focus:outline-2 disabled:cursor-not-allowed rounded-md"
+                name="name"
+                placeholder="Your Name"
+                aria-required={true}
+                value={formData.name}
+                onChange={handleChange}
+                role="textbox"
+              />
+              {error?.name && <span className="text-red-400">{error.name}</span>}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="email">Email</label>
+            <div className="relative">
+              <Mail className="absolute h-4 top-3 left-2 text-gray-400" />
+              <input
+                id="email"
+                className="inline-flex h-10 pl-9 items-center w-full outline-1 outline-gray-200 focus:outline-gray-400 focus:outline-2 disabled:cursor-not-allowed rounded-md"
+                name="email"
+                type="email"
+                placeholder="your@email.com"
+                aria-required={true}
+                value={formData.email}
+                onChange={handleChange}
+                role="textbox"
+              />
+              {error?.email && <span className="text-red-400">{error.email}</span>}
+            </div>
+          </div>
 
-    return <>
+          <div className="space-y-2">
+            <label htmlFor="password">Password</label>
+            <div className="relative place-content-center">
+              <Lock className="absolute h-4 top-3 left-2 text-gray-400" />
+              <input
+                id="password"
+                className="inline-flex h-10 px-9 items-center w-full outline-1 outline-gray-200 focus:outline-gray-400 focus:outline-2 disabled:cursor-not-allowed rounded-md"
+                type={isPwdVisible ? "text" : "password"}
+                name="password"
+                placeholder="Your password"
+                aria-required={true}
+                value={formData.password}
+                onChange={handleChange}
+                role="textbox"
+              />
+              <button
+                className="absolute right-3 top-3 text-gray-400"
+                type="button"
+                onClick={handleShowPassword}
+              >
+                {isPwdVisible ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+              {error?.password && <span className="text-red-400">{error.password}</span>}
+            </div>
+          </div>
 
-        <div className="">
-            <form class="">
-                <h1>Create Account</h1>
-                <p>Fill in the following details to create your account</p>
-
-                <div className="">
-                    <label htmlFor="name">Name</label>
-                    <div className="">
-                        <Mail />
-                        <input name="name" placeholder="Your full name" value={formData.name} onChange={handleChange} />
-                    </div>
-                </div>
-                <div className="">
-                    <label htmlFor="email">Email</label>
-                    <div className="">
-                        <Mail />
-                        <input name="email" type="email" placeholder="your@email.com" value={formData.email} onChange={handleChange} />
-                    </div>
-                </div>
-
-                <div className="">
-                    <label htmlFor=""></label>
-                    <div>
-                        <Lock />
-                        <input type="password" placeholder="Your password" value={formData.password} onChange={handleChange} />
-                        <button onClick={handleShowPassword}>
-                            {
-                                isPwdVisible ? <EyeOff /> : <Eye />
-                            }
-                        </button>
-
-                    </div>
-                </div>
-
-                <button type="submit">
-                    Create Account
-                </button>
-
-            </form>
-
-        </div>
-
-
+          <button
+            className={`inline-flex items-center justify-center whitespace-nowrap bg-black text-white text-md font-light rounded-xs hover:bg-neutral-800 ${!isSuccess && "disabled:bg-neutral-500"} px-4 py-2 h-10 w-full`}
+            type="submit"
+            disabled={!isSuccess}
+          >
+            Create Account
+          </button>
+        </form>
+      </div>
     </>
+  );
 }

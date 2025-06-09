@@ -1,4 +1,4 @@
-import { render } from 'preact'
+import { render, } from 'preact'
 import './index.css'
 
 
@@ -16,4 +16,4 @@ declare module '@tanstack/react-router' {
     }
 }
 
-render(/*<RouterProvider router={router} />*/ <App/>, document.getElementById('app')!)
+render(/*<RouterProvider router={router} />*/ <App/>,  document.getElementById('app')!)

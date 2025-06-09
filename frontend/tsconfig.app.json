@@ -19,14 +19,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
+    "types": ["vitest/globals","@vitest/browser/providers/playwright"],
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
+    "erasableSyntaxOnly": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "*.d.ts"]
+	"include": [ "node_modules/vite/client.d.ts", "**/*"]
 }

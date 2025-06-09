@@ -1,30 +1,12 @@
 
-import type { JSX } from "preact/jsx-runtime"
-import  type { TabItem, TabKeys } from "./types"
+import type { PropsWithChildren } from "preact/compat"
 
-
-
-
-const tabs: TabItem[] = [
-    {
-        id: "tab1",
-        label: "Sign In"
-    },
-    {
-        id: "tab2",
-        label: "Sign Up"
-    }
-]
-
-
-const tanElement: Record<TabKeys, JSX.Element > = {
-    tab1: <></>,
-    tab2: <></>
-}
-
-export default function Tab() {
+export default function Tab(props: PropsWithChildren) {
     return <>
-
-    
+        <div data-testid="Tab" className="flex h-12 bg-gray-200 rounded-xs justify-center items-center mt-4">
+            {
+                props.children
+            }
+        </div>
     </>
 }

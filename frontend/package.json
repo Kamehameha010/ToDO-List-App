@@ -6,20 +6,35 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.120.13",
     "@tanstack/react-router-devtools": "^1.120.15",
-    "lucide-react": "^0.512.0",
-    "preact": "^10.26.5"
+    "lucide-preact": "^0.513.0",
+    "preact": "^10.25.3"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.27.1",
     "@preact/preset-vite": "^2.10.1",
     "@tailwindcss/vite": "^4.1.8",
     "@tanstack/router-plugin": "^1.120.15",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/preact": "^3.2.4",
+    "@vitest/browser": "^3.2.2",
+    "@vitest/ui": "^3.2.2",
+    "eslint": "^9.28.0",
+    "eslint-config-preact": "^1.5.0",
+    "jsdom": "^26.1.0",
+    "playwright": "^1.52.0",
+    "tailwindcss": "^4.1.8",
     "typescript": "~5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vitest": "^3.2.2"
+  },
+  "eslintConfig": {
+    "extends": "preact"
   },
   "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }

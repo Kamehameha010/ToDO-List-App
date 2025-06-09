@@ -8,8 +8,12 @@ export default defineConfig({
     TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
     tailwindcss(),
     preact()
-    
   ],
+
+  test: {
+    environment: 'jsdom',
+
+  }
 
 })
 
