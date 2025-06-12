@@ -2,6 +2,8 @@ import { Eye, EyeOff, Lock, Mail } from "lucide-preact";
 import type { TargetedEvent } from "preact/compat";
 import { useState } from "preact/hooks";
 import { useForm } from "../../hooks/form/use-form";
+import { useAuth } from "../../hooks/auth/use-auth";
+import type { AuthRequest } from "../../services/auth/types";
 
 export default function SignIn() {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
@@ -13,11 +15,18 @@ export default function SignIn() {
     password: ""
   });
 
+  const { login, isLoading } = useAuth();
+
   const handleShowPassword = () => setIsPwdVisible((x) => !x);
-  const handleSumbmit = async(e: TargetedEvent<HTMLFormElement, Event>)=>{
+  const handleSumbmit = async (e: TargetedEvent<HTMLFormElement, Event>) => {
     e.preventDefault();
+    const { error } = await login(formData as unknown as AuthRequest);
+    if (error) {
+      alert(error)
+    }
+
   }
-  
+
   return (
     <>
       <div className="space-y-2 px-3 rounded-xs outline-2 outline-gray-200">
@@ -64,7 +73,7 @@ export default function SignIn() {
                 className="absolute right-3 top-3 text-gray-400"
                 type="button"
                 onClick={handleShowPassword}
-                
+
               >
                 {isPwdVisible ? (
                   <EyeOff className="h-4 w-4" />
@@ -80,7 +89,7 @@ export default function SignIn() {
             className={`inline-flex items-center justify-center whitespace-nowrap bg-black text-white text-md font-light rounded-xs hover:bg-neutral-800 ${!isSuccess && "disabled:bg-neutral-500"} px-4 py-2 h-10 w-full`}
             type="submit"
             disabled={!isSuccess}
-            
+
           >
             Sign In
           </button>

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 
 //@ts-ignore
-export const Route = createFileRoute('/tasks/')({
+export const TaskRoute = createFileRoute('/tasks/')({
   component: Index,
 })
 

@@ -12,6 +12,8 @@
   "dependencies": {
     "@tanstack/react-router": "^1.120.13",
     "@tanstack/react-router-devtools": "^1.120.15",
+    "axios": "^1.9.0",
+    "dayjs": "^1.11.13",
     "lucide-preact": "^0.513.0",
     "preact": "^10.25.3"
   },

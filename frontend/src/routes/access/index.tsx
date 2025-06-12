@@ -11,7 +11,7 @@ import TabItem from "../../components/access/tabs/tab-item";
 import { useState } from "preact/hooks";
 
 //@ts-ignore
-export const Route = createFileRoute("/access/")({
+export const AccsessRoute = createFileRoute("/access/")({
   component: Index,
 });
 
@@ -31,7 +31,7 @@ const tabElement: Record<TabKeys, JSX.Element> = {
   tab2: <SignUp />,
 };
 
-export function Index() {
+function Index() {
   const [active, setActive] = useState<TabKeys>("tab1");
   return (
     <>

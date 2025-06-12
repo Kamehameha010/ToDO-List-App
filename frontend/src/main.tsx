@@ -16,4 +16,4 @@ declare module '@tanstack/react-router' {
     }
 }
 
-render(/*<RouterProvider router={router} />*/ <App/>,  document.getElementById('app')!)
+render(<RouterProvider router={router} />,  document.getElementById('app')!)

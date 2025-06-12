@@ -1,6 +1,9 @@
 import { Mail, Lock, Eye, EyeOff, UserRound } from "lucide-preact";
 import { useState } from "preact/hooks";
 import { useForm } from "../../hooks/form/use-form";
+import { useAuth } from "../../hooks/auth/use-auth";
+import type { RegisterRequest } from "../../services/auth/types";
+import type { TargetedEvent } from "preact/compat";
 
 export default function SignUp() {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
@@ -11,12 +14,23 @@ export default function SignUp() {
     password: "",
   });
 
+  const { isLoading, registerAccount } = useAuth();
+
   const handleShowPassword = () => setIsPwdVisible((x) => !x);
+
+  const handleSumbmit = async (e: TargetedEvent<HTMLFormElement, Event>) => {
+    e.preventDefault();
+    const { error } = await registerAccount(formData as unknown as RegisterRequest);
+    if (error) {
+      alert(error)
+    }
+
+  }
 
   return (
     <>
       <div className="space-y-2 px-3 rounded-xs outline-2 outline-gray-200">
-        <form className="space-y-5 p-3">
+        <form className="space-y-5 p-3" onSubmit={handleSumbmit}>
           <div className="space-y-2">
             <h1 className="text-xl">Create Account</h1>
             <p class="text-xs">
