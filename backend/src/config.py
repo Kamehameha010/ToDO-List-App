@@ -11,7 +11,7 @@ class Config(BaseSettings):
     jwt_secret_key: str = os.getenv("SECRET_KEY", "test_phrase")
     jwt_algorithm: str = "HS512"
     domain_url:str = os.getenv("DOMAIN_URL", "http://localhost:8000")
-
+    sentry_dsn: str = os.getenv("SENTRY_DSN", "")
 
     
 
