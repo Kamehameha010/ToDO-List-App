@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import StrEnum, auto
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 
 from .custom import PydanticObjectId
 
@@ -11,11 +11,16 @@ class TaskPriority(StrEnum):
     Medium = auto()
     Low = auto()
 
+class TaskStatus(StrEnum):
+    Active = auto()
+    Done = auto()
+
 
 class TaskBase(BaseModel):
     title: str = Field(default_factory="")
     description: str = Field(default_factory="")
     priority: TaskPriority = Field(default=TaskPriority.Low)
+    status: TaskStatus = Field(default=TaskStatus.Active)
 
 
 class CreateTask(TaskBase):

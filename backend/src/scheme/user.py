@@ -11,3 +11,8 @@ class SignUp(User):
 
 class LogIn(User):
     password: str
+
+
+class Profile(User):
+    name: str | None = None
+    email: str | None = None

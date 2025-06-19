@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .routes.v1.auth import access_router
 from .routes.v1.tasks import task_router
+from .routes.v1.user import user_router
 from .config import settings
 
 sentry_sdk.init(
@@ -29,3 +30,4 @@ app.add_middleware(
 
 app.include_router(access_router)
 app.include_router(task_router)
+app.include_router(user_router)
