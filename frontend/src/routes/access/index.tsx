@@ -31,7 +31,7 @@ const tabElement: Record<TabKeys, JSX.Element> = {
   tab2: <SignUp />,
 };
 
-function Index() {
+export function Index() {
   const [active, setActive] = useState<TabKeys>("tab1");
   return (
     <>

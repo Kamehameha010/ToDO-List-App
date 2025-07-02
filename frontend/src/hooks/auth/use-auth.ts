@@ -20,7 +20,7 @@ export function useAuth() {
 
     const { setItem, clearStorage, getItem } = useLocalStorage();
 
-    const { isAuthenticated, setIsAuthenticated, setExpiration, expiration } = context;
+    const { isAuthenticated, setIsAuthenticated } = context;
 
     const login = async (credentals: AuthRequest) => {
         try {
@@ -29,15 +29,12 @@ export function useAuth() {
             setItem(tokenKey, response.token);
 
             const exp = dayjs().add(response.expiration, 'second').toDate();
-
-            setExpiration(exp)
             setItem(expKey, exp)
             setIsAuthenticated(true);
 
             return { data: null, error: null }
         } catch (err) {
             setIsAuthenticated(true);
-            setExpiration(null);
             return { data: null, error: (err as Error).message }
         } finally {
             setIsIoading(false)
@@ -59,43 +56,38 @@ export function useAuth() {
 
             const exp = dayjs().add(response.expiration, 'second').toDate();
 
-            setExpiration(exp)
             setItem(expKey, exp)
             setIsAuthenticated(true);
 
             return { data: null, error: null }
         } catch (err) {
             setIsAuthenticated(true);
-            setExpiration(null);
             return { data: null, error: (err as Error).message }
         } finally {
             setIsIoading(false)
         }
     }
 
+
+    const validateSession = () => {
+        const exp = getItem(expKey);
+
+        if (!exp || dayjs(exp).isBefore(dayjs())) {
+            setIsAuthenticated(false);
+        }
+    }
+
     useEffect(() => {
-        const refresh = () => {
-            const exp = getItem(expKey);
-            if (exp) {
-                setExpiration(exp)
-            }
-        }
-        const validateExp = () => {
-            if (dayjs(expiration).isBefore(dayjs())) {
-                setIsAuthenticated(false);
-            }
-        }
-
-        refresh();
-        validateExp();
-
+        validateSession()
     }, [])
+
 
     return {
         isAuthenticated,
         isLoading,
         login,
         logout,
-        registerAccount
+        registerAccount,
+        validateSession
     }
 }

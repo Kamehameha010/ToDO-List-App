@@ -10,6 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@sentry/react": "^9.30.0",
     "@tanstack/react-router": "^1.120.13",
     "@tanstack/react-router-devtools": "^1.120.15",
     "axios": "^1.9.0",

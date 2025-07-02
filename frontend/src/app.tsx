@@ -1,16 +1,14 @@
-//import { AuthProvider } from './context/auth-context'
-//import { Index } from './routes/access'
+import { AuthProvider } from './context/auth-context'
+import { Index } from './routes/tasks/index'
 
 
 
 export function App() {
   return (
     <>
-      {/* <AuthProvider>
-        <Index>
-
-        </Index>
-      </AuthProvider> */}
+      <AuthProvider>
+        <Index />
+      </AuthProvider>
     </>
   )
 }
