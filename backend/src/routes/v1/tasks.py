@@ -70,7 +70,7 @@ async def update_task(
 
     _ = await task_db.update_async(
         {"_id": ObjectId(task_id), "created_by": jwt_details["email"]},
-        task.model_dump()
+        task.model_dump(),
     )
 
     updated_task = {"_id": task_id, **task.model_dump()}
@@ -123,3 +123,19 @@ async def delete_task(
     )
 
     return Response(status_code=HTTP_204_NO_CONTENT)
+
+
+@task_router.get("/stats")
+async def get_task_stats(
+    task_db: Annotated[TaskDb, Depends(db_context)],
+    jwt_details: Annotated[JwtSecurity, Depends(jwt_security)],
+):
+    tasks_stats = await task_db.get_task_stats_counter(jwt_details["email"])
+
+    total_tasks = sum([stat["count"] for stat in tasks_stats])
+
+    tasks_stats_dict = {stat["status"]: stat["count"] for stat in tasks_stats}
+
+    tasks_stats_dict.update({"total_tasks": total_tasks})
+
+    return {"summary": tasks_stats_dict}
