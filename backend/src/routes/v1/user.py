@@ -12,7 +12,7 @@ user_router = APIRouter(
 )
 
 
-@user_router.post(
+@user_router.get(
     "/me/profile",
     summary="Get user profile",
 )
