@@ -28,19 +28,19 @@ const OVERVIEW_COLOR = {
 
 }
 
-export function TaskStatusCounter({ status, counter }: TaskCounterProps) {
+export function TaskStatusCounter({ title, counter }: TaskCounterProps) {
 
-    const status_custom = OVERVIEW_COLOR[status]
+    const title_custom = OVERVIEW_COLOR[title]
 
     return <>
         <div className="outline outline-gray-200/60 h-25 content-center rounded-sm p-5">
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm font-semibold text-gray-600/100">{TITLE_COUNTER[status]}</p>
-                    <p className={`text-2xl font-semibold ${status_custom.font}`} >{counter}</p>
+                    <p className="text-sm font-semibold text-gray-600/100">{TITLE_COUNTER[title]}</p>
+                    <p className={`text-2xl font-semibold ${title_custom.font}`} >{counter}</p>
                 </div>
-                <div className={`flex items-center justify-center rounded-md ${status_custom.background} ${status_custom.font} size-10`}>
-                    {status_custom.icon}
+                <div className={`flex items-center justify-center rounded-md ${title_custom.background} ${title_custom.font} size-10`}>
+                    {title_custom.icon}
                 </div>
             </div>
         </div>

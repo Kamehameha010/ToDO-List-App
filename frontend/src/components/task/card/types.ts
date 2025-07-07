@@ -1,7 +1,7 @@
 
 
 export type TaskCounterProps = {
-    status: TaskTitleKeys;
+    title: TaskTitleKeys;
     counter: number;
 }
 

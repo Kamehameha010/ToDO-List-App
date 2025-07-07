@@ -1,4 +1,7 @@
+import { useEffect } from "preact/hooks";
+import { useTask } from "../../../hooks/task/use-task"
 import { TaskItem } from "../card/task-item"
+import type { TaskProps } from "../card/types";
 
 const tasks = [
   {
@@ -47,15 +50,25 @@ const tasks = [
 
 export function TaskList() {
 
-    return (
-        <>
-            <div className="grid grid-cols-1 gap-8">
+  const { state: { tasks }, getTasks } = useTask();
 
-                {
-                    tasks.map(task => <TaskItem key={task._id} {...task} />)
-                }
+  useEffect(() => {
 
-            </div>
-        </>
-    )
+    getTasks();
+
+  }, [])
+
+  console.log(tasks);
+  
+  return (
+    <>
+      <div className="grid grid-cols-1 gap-8">
+
+        {
+          tasks.map((task) => <TaskItem key={task._id} {...task as TaskProps} />)
+        }
+
+      </div>
+    </>
+  )
 }

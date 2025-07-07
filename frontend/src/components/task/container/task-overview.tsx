@@ -1,29 +1,39 @@
-import { TaskStatusCounter } from "../card/task-status-counter"
-import type { TaskCounterProps } from "../card/types"
+import { useEffect, useState } from "preact/hooks";
+import { useTask } from "../../../hooks/task/use-task";
+import { TaskStatusCounter } from "../card/task-status-counter";
+import type { TaskTitleKeys } from "../card/types";
 
-const tasks : TaskCounterProps[] = [
-    {
-        "status": "active",
-        "counter": 10,
-    }, {
-        "status": "done",
-        "counter": 10
-    }, {
-        "status": "total_tasks",
-        "counter": 20
-    }
-
-]
 
 export function TaskOverview() {
 
+    const [summary, setSummary] = useState<Record<TaskTitleKeys, number> | null>(null);
+    const { state, getTaskSummary } = useTask();
+
+
+    useEffect(() => {
+
+        const fetchTaskSummary = async () => {
+            const response = await getTaskSummary();
+
+            if ("status" in response) {
+                return;
+            }
+            setSummary(response);
+        }
+
+        fetchTaskSummary()
+
+    }, [state])
+
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {
-                    tasks.map(task => <TaskStatusCounter status={task.status} counter={task.counter} />)
+                    summary && Object.entries(summary).map(([title, count]) => (<TaskStatusCounter title={title as TaskTitleKeys} counter={count} />))
                 }
             </div>
+
+
         </>
     )
 

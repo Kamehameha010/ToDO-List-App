@@ -15,7 +15,7 @@ export default function SignIn() {
     password: ""
   });
 
-  const { login, isLoading } = useAuth();
+  const { login } = useAuth();
 
   const handleShowPassword = () => setIsPwdVisible((x) => !x);
   const handleSumbmit = async (e: TargetedEvent<HTMLFormElement, Event>) => {

@@ -1,9 +1,9 @@
-import { Mail, Lock, Eye, EyeOff, UserRound } from "lucide-preact";
-import { useState } from "preact/hooks";
-import { useForm } from "../../hooks/form/use-form";
-import { useAuth } from "../../hooks/auth/use-auth";
-import type { RegisterRequest } from "../../services/auth/types";
+import { Eye, EyeOff, Lock, Mail, UserRound } from "lucide-preact";
 import type { TargetedEvent } from "preact/compat";
+import { useState } from "preact/hooks";
+import { useAuth } from "../../hooks/auth/use-auth";
+import { useForm } from "../../hooks/form/use-form";
+import type { RegisterRequest } from "../../services/auth/types";
 
 export default function SignUp() {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
@@ -23,8 +23,14 @@ export default function SignUp() {
     const { error } = await registerAccount(formData as unknown as RegisterRequest);
     if (error) {
       alert(error)
+      return;
     }
 
+  }
+
+
+  if (isLoading) {
+    return <>Wait Moment...</>
   }
 
   return (

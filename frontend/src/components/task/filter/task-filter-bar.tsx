@@ -22,9 +22,7 @@ export function TaskFilterBar() {
 
 
     useEffect(() => {
-
         const interval = setTimeout(() => {
-            console.log("re-render");
 
         }, 500);
 
