@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import Tab from "../../components/access/tabs/tab";
 import type { JSX } from "preact/jsx-runtime";
 import SignIn from "../../components/access/sign-in";
@@ -9,10 +9,11 @@ import type {
 } from "../../components/access/tabs/types";
 import TabItem from "../../components/access/tabs/tab-item";
 import { useState } from "preact/hooks";
-
+import { useAuth } from "../../hooks/auth/use-auth";
+import { useNavigate } from "@tanstack/react-router";
 //@ts-ignore
 export const AccsessRoute = createFileRoute("/access/")({
-  component: Index,
+  component: Index
 });
 
 const tabs: TTabItem[] = [
@@ -33,6 +34,26 @@ const tabElement: Record<TabKeys, JSX.Element> = {
 
 export function Index() {
   const [active, setActive] = useState<TabKeys>("tab1");
+
+  const navigate = useNavigate();
+  const routerCtx = useRouteContext({
+    from: "/access"
+  })
+  
+  const { isAuthenticated } = useAuth();
+  
+
+  if (isAuthenticated) {
+    routerCtx.auth.isAuthenticated = isAuthenticated;
+
+    navigate({
+      to: "/tasks",
+      replace: true
+    })
+
+  }
+
+
   return (
     <>
       <div className="min-h-screen flex items-center justify-center">

@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/auth-context";
 import { register, signIn } from "../../services/auth";
 import { useLocalStorage } from "../use-localStorage";
 import dayjs from "dayjs";
+import { getMeProfile } from "../../services/users";
 
 export function useAuth() {
 
@@ -68,17 +69,29 @@ export function useAuth() {
         }
     }
 
-
     const validateSession = () => {
         const exp = getItem(expKey);
 
         if (!exp || dayjs(exp).isBefore(dayjs())) {
             setIsAuthenticated(false);
+            return;
         }
+
+        setIsAuthenticated(true)
+    }
+
+    const getProfile = async () => {
+        const response = await getMeProfile();
+        return response;
     }
 
     useEffect(() => {
-        validateSession()
+        const interval = setInterval(() => validateSession(), 200);
+
+        return () => {
+            clearInterval(interval)
+        }
+
     }, [])
 
 
@@ -88,6 +101,7 @@ export function useAuth() {
         login,
         logout,
         registerAccount,
-        validateSession
+        validateSession,
+        getProfile
     }
 }

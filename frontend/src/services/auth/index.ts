@@ -26,7 +26,6 @@ authApi.interceptors.response.use((response): AxiosResponse<AuthResponse | Promi
 
 export const signIn = async (payload: AuthRequest) => {
     const response = await authApi.post('/login', payload);
-    console.log(response.data);
     
     return response.data;
 

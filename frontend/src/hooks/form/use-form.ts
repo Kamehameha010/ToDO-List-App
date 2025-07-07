@@ -7,13 +7,11 @@ export function useForm(initializeData: Record<string, string>, initializeSucces
     const [data, setData] = useState<Record<string, string>>(initializeData);
     const [error, setError] = useState<Record<string, string> | null>(null);
     const [isSuccess, setIsSuccess] = useState(initializeSuccess)
-    const timeoutRef = useRef<number>(0);
 
     const formkeys = Object.keys(initializeData);
 
-    const handleChange = useCallback((e: TargetedEvent<HTMLInputElement, Event>) => {
+    const handleChange = useCallback((e: TargetedEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement, Event>) => {
         const { name, value, ariaRequired: required } = e.currentTarget;
-        
 
         const fieldName = `${name.charAt(0).toUpperCase()}${name.substring(1, name.length)}`
 
@@ -28,13 +26,17 @@ export function useForm(initializeData: Record<string, string>, initializeSucces
     useEffect(() => {
 
         let errorKeys = Object.keys(error ?? {});
-        
-        timeoutRef.current = setTimeout(() => {
-            if (error && formkeys.every(x=> errorKeys?.includes(x))) {
+
+        const timeoutInterval = setTimeout(() => {
+            if (error && formkeys.every(x => errorKeys?.includes(x))) {
                 setIsSuccess(!Object.values(error).some(p => p))
             }
 
         }, 300);
+
+        return () => {
+            clearInterval(timeoutInterval)
+        }
 
     }, [error])
 
