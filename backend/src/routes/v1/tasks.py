@@ -3,12 +3,12 @@ from datetime import datetime
 from typing import Annotated, Any, AsyncGenerator
 
 from bson import ObjectId
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Query, Response
 from fastapi.security import HTTPBearer
 from starlette.status import HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 
 from ...db.task import Task as TaskDb
-from ...scheme.task import CreateTask, Task, UpdateTask, TaskStatus
+from ...scheme.task import CreateTask, Task, TaskFilter, UpdateTask, TaskStatus
 from ...utils.security import JwtSecurity, jwt_security
 
 oauth_scheme = HTTPBearer()
@@ -28,10 +28,19 @@ async def db_context() -> AsyncGenerator[TaskDb, Any]:
 
 @task_router.get("/")
 async def get_tasks(
+    filters: Annotated[TaskFilter, Query(...)],
     task_db: Annotated[TaskDb, Depends(db_context)],
     jwt_details: Annotated[JwtSecurity, Depends(jwt_security)],
 ):
-    return await task_db.get_tasks({"created_by": jwt_details["email"]})
+    query = {
+        "created_by": jwt_details["email"],
+        "title": {"$regex": filters.q, "$options": "i"},
+    }
+
+    if filters.status != "all":
+        query.update({"status": filters.status})
+
+    return await task_db.get_tasks(query)
 
 
 @task_router.post("/")
@@ -78,7 +87,7 @@ async def update_task(
     return updated_task
 
 
-@task_router.get("/{task_id}/status/{status}")
+@task_router.put("/{task_id}/status/{status}")
 async def update_task_status(
     task_id: str,
     status: TaskStatus,

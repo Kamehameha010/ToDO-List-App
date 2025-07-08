@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import StrEnum, auto
 
+from fastapi import Query
 from pydantic import BaseModel, Field
 
 from .custom import PydanticObjectId
@@ -11,7 +12,9 @@ class TaskPriority(StrEnum):
     Medium = auto()
     Low = auto()
 
+
 class TaskStatus(StrEnum):
+    All = auto()
     Active = auto()
     Done = auto()
 
@@ -31,5 +34,11 @@ class CreateTask(TaskBase):
 class UpdateTask(TaskBase):
     updated_at: int | None = Field(default=int(datetime.now().timestamp()))
 
+
 class Task(TaskBase):
     id: PydanticObjectId = Field(alias="_id")
+
+
+class TaskFilter(BaseModel):
+    q: str = Field("")
+    status: TaskStatus = Field(None)
