@@ -2,12 +2,26 @@
 import { Search } from 'lucide-preact'
 import type { TargetedEvent } from 'preact/compat';
 import { useEffect, useState } from 'preact/hooks'
+import { useTask } from '../../../hooks/task/use-task';
+import { useTaskFilter } from '../../../hooks/task/use-task-filter';
 
+const btnStatus: Record<string, string> = {
+    "btn-all": "all",
+    "btn-active": "active",
+    "btn-done": "done"
 
+}
+const statusToBtn: Record<string, string> = {
+    "all": "btn-all",
+    "active": "btn-active",
+    "done": "btn-done"
+
+}
 
 export function TaskFilterBar() {
 
-    const [isSelected, setIsSelected] = useState("btn-all");
+    const { setFilters, filters } = useTaskFilter();
+    const [isSelected, setIsSelected] = useState(statusToBtn[filters.status]);
     const [query, setQuery] = useState('')
 
     const handleClick = (e: TargetedEvent<HTMLButtonElement, Event>) => {
@@ -20,9 +34,13 @@ export function TaskFilterBar() {
         setQuery(value)
     }
 
-
     useEffect(() => {
+
         const interval = setTimeout(() => {
+            setFilters({
+                status: btnStatus[isSelected],
+                q: query
+            })
 
         }, 500);
 
@@ -30,7 +48,7 @@ export function TaskFilterBar() {
             clearTimeout(interval)
         }
 
-    }, [query])
+    }, [query, isSelected])
 
 
 

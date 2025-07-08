@@ -19,7 +19,7 @@ export interface TaskResponse {
 
 export interface SearchTaskParams {
     q?: string,
-    status: 'active' | 'done'
+    status: string
 }
 
 export type TaskStatResponse = {

@@ -112,7 +112,7 @@ export const deleteTask = async (taskId: string): Promise<TaskResponse> => {
 }
 
 export const getTasks = async (params?: SearchTaskParams): Promise<TaskResponse> => {
-
+    
     const response = await taskApi.get(`/`, {
         params: params
     });

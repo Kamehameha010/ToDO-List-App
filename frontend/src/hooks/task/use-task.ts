@@ -19,8 +19,6 @@ export function useTask() {
         throw new Error("Context out scoped");
     }
 
-    const [filters, setFilters] = useState<SearchTaskParams>();
-
     const { state, dispatch } = context;
 
     const newTask = async (task: Task) => {
@@ -81,9 +79,9 @@ export function useTask() {
 
     }
 
-    const getTasks = async () => {
+    const getTasks = async (params: SearchTaskParams) => {
 
-        const response = await getMeTasks(filters);
+        const response = await getMeTasks(params);
 
         if (response.error) {
             return response.error
@@ -101,9 +99,7 @@ export function useTask() {
         updateStatus,
         deleteTask,
         getTaskSummary,
-        getTasks,
-        filters,
-        setFilters
+        getTasks
     }
 
 }

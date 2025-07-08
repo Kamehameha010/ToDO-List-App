@@ -6,6 +6,7 @@ import { TaskForm } from "../../components/task/form/task-form"
 import { TaskHeader } from "../../components/task/header/task-header"
 import { TaskProvider } from "../../context/task-context"
 import { useAuth } from "../../hooks/auth/use-auth"
+import { TaskFilterProvider } from "../../context/task-filter-context"
 //@ts-ignore
 export const TaskRoute = createFileRoute('/tasks/')({
     component: Index,
@@ -43,15 +44,17 @@ export function Index() {
                         <TaskForm />
                     </section>
 
-                    <section className="mt-10 outline outline-gray-200 p-6 rounded-md space-y-4">
-                        <h1 className="text-xl font-semibold text-gray-900">Tasks</h1>
-                        <TaskFilterBar />
+                    <TaskFilterProvider>
+                        <section className="mt-10 outline outline-gray-200 p-6 rounded-md space-y-4">
+                            <h1 className="text-xl font-semibold text-gray-900">Tasks</h1>
+                            <TaskFilterBar />
 
-                        <div>
-                            <TaskList />
-                        </div>
+                            <div>
+                                <TaskList />
+                            </div>
 
-                    </section>
+                        </section>
+                    </TaskFilterProvider>
                 </div>
             </div>
         </TaskProvider>

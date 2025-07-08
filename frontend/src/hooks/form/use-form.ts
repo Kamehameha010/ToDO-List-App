@@ -1,6 +1,6 @@
 
 import type { TargetedEvent } from "preact/compat";
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 export function useForm(initializeData: Record<string, string>, initializeSuccess: boolean = false) {
 
