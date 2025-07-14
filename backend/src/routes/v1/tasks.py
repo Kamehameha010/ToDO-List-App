@@ -5,16 +5,21 @@ from typing import Annotated, Any, AsyncGenerator
 from bson import ObjectId
 from fastapi import APIRouter, Depends, Query, Response
 from fastapi.security import HTTPBearer
+from fastapi_limiter.depends import RateLimiter
+from fastapi_pagination import Params, set_params
+from fastapi_pagination.ext.motor import apaginate
 from starlette.status import HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 
 from ...db.task import Task as TaskDb
-from ...scheme.task import CreateTask, Task, TaskFilter, UpdateTask, TaskStatus
+from ...scheme.task import CreateTask, Task, TaskFilter, TaskStatus, UpdateTask
 from ...utils.security import JwtSecurity, jwt_security
 
 oauth_scheme = HTTPBearer()
 
 task_router = APIRouter(
-    prefix="/v1/tasks", dependencies=[Depends(jwt_security)], tags=["Task"]
+    prefix="/v1/tasks",
+    dependencies=[Depends(jwt_security), Depends(RateLimiter(times=10, seconds=10))],
+    tags=["Task"],
 )
 
 
@@ -28,7 +33,7 @@ async def db_context() -> AsyncGenerator[TaskDb, Any]:
 
 @task_router.get("/")
 async def get_tasks(
-    filters: Annotated[TaskFilter, Query(...)],
+    filters: Annotated[TaskFilter, Query()],
     task_db: Annotated[TaskDb, Depends(db_context)],
     jwt_details: Annotated[JwtSecurity, Depends(jwt_security)],
 ):
@@ -40,7 +45,13 @@ async def get_tasks(
     if filters.status != "all":
         query.update({"status": filters.status})
 
-    return await task_db.get_tasks(query)
+    set_params(Params(page=filters.page, size=filters.size))
+
+    return await apaginate(
+        task_db._collection,
+        query,
+        transformer=lambda items: [Task(**item) for item in items]
+    )
 
 
 @task_router.post("/")

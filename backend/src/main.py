@@ -2,10 +2,13 @@ import sentry_sdk
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .scheme.startup import lifespan
+
 from .routes.v1.auth import access_router
 from .routes.v1.tasks import task_router
 from .routes.v1.user import user_router
 from .config import settings
+from fastapi_pagination import add_pagination
 
 sentry_sdk.init(
     dsn=settings.sentry_dsn,
@@ -21,13 +24,15 @@ sentry_sdk.init(
     # Set profile_lifecycle to "trace" to automatically
     # run the profiler on when there is an active transaction
     profile_lifecycle="trace",
-    environment= settings.env
+    environment=settings.env,
 )
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
 )
+
+add_pagination(app)
 
 app.include_router(access_router)
 app.include_router(task_router)

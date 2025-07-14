@@ -37,8 +37,11 @@ class UpdateTask(TaskBase):
 
 class Task(TaskBase):
     id: PydanticObjectId = Field(alias="_id")
+    created_at: int
 
 
 class TaskFilter(BaseModel):
-    q: str = Field("")
-    status: TaskStatus = Field(None)
+    q: str = Query("")
+    status: TaskStatus = Query(TaskStatus.All)
+    page: int = Query(1, ge=1)
+    size: int = Query(5, ge=2, alias="limit")
