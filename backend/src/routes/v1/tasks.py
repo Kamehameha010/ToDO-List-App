@@ -117,7 +117,7 @@ async def update_task_status(
 
     _ = await task_db.update_async(
         {"_id": ObjectId(task_id), "created_by": jwt_details["email"]},
-        {"status": status},
+        {"status": status, "updated_at": int(datetime.now().timestamp())},
     )
 
     return {"_id": task_id, "status": status}
