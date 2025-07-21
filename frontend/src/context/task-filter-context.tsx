@@ -12,7 +12,9 @@ export function TaskFilterProvider({ children }: { children: ComponentChildren }
 
     const [filters, setFilters] = useState<SearchTaskParams>({
         q: "",
-        status: "all"
+        status: "all",
+        limit: 10,
+        page: 1
     });
     return (
         <TaskFilterContext.Provider value={{ filters, setFilters }}>

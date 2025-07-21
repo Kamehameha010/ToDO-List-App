@@ -20,6 +20,8 @@ export interface TaskResponse {
 export interface SearchTaskParams {
     q?: string,
     status: string
+    page: number,
+    limit: number
 }
 
 export type TaskStatResponse = {

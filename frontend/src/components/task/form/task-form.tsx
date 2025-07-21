@@ -44,7 +44,7 @@ export function TaskForm() {
                 </div>
                 <div className="flex justify-between">
                     <select
-                        className="text-sm h-10 pl-3 pr-5 py-1.5 outline outline-gray-200 rounded-md "
+                        className="text-sm h-10 pl-3 pr-5 py-1.5 outline outline-gray-200 rounded-md cursor-pointer"
                         name="priority"
                         onChange={handleChange}
                     >
@@ -54,7 +54,7 @@ export function TaskForm() {
                     </select>
 
                     <button
-                        className="inline-flex items-center justify-between bg-blue-700/90 text-white h-10 w-36 px-4 py-1.5 rounded-md focus:outline-gray-500"
+                        className="inline-flex items-center justify-between bg-blue-700/90 text-white h-10 w-36 px-4 py-1.5 rounded-md focus:outline-gray-500 cursor-pointer"
                         type="submit">
                         <Plus className="size-4" />
                         Add Task

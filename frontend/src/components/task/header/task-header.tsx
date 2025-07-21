@@ -33,7 +33,7 @@ export function TaskHeader() {
                         </div>
 
                     </div>
-                    <button className="inline-flex font-semibold items-center hover:bg-gray-200 gap-3 px-3 py-1.5"
+                    <button className="inline-flex font-semibold items-center hover:bg-gray-200 gap-3 px-3 py-1.5 cursor-pointer"
                         onClick={() => logout()}
                     >
                         <LogOut className="size-4" />

@@ -31,6 +31,11 @@ export function taskReducer(state: State, action: Action) {
             return {
                 tasks: structuredClone(action.payload)
             }
+        case 'SET_CURRENT_TASK':
+            return {
+                ...state,
+                currentTask: state.tasks.find(task => task._id === action.payload._id)
+            }
         default:
             return state;
     }

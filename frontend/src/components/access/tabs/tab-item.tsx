@@ -10,7 +10,7 @@ interface TabItemProps extends PropsWithChildren {
 export default function TabItem(props: TabItemProps) {
   return (
     <button
-      className={`inline-flex h-10 w-55 items-center justify-center font-normal rounded-xs ${
+      className={`inline-flex h-10 w-55 items-center justify-center font-normal rounded-xs cursor-pointer ${
         props.active ? "bg-gray-50" : "bg-gray-200 text-gray-500"
       }`}
       aria-selected={props.active}

@@ -1,14 +1,14 @@
-import { useContext, useState } from "preact/hooks";
+import { useCallback, useContext } from "preact/hooks";
 import { TaskContext } from "../../context/task-context";
-import type { SearchTaskParams, Task, TaskStatResponse } from "../../services/task/types";
 import {
     createTask,
     deleteTask as deleteMeTask,
+    getTasks as getMeTasks,
     getTasksStats,
     updateTask as updateMeTask,
-    updateTaskStatus,
-    getTasks as getMeTasks
+    updateTaskStatus
 } from "../../services/task";
+import type { SearchTaskParams, Task, TaskStatResponse } from "../../services/task/types";
 
 
 export function useTask() {
@@ -66,7 +66,7 @@ export function useTask() {
         return null
     }
 
-    const getTaskSummary = async () => {
+    const getTaskSummary = useCallback(async () => {
         const response = await getTasksStats();
 
         if (response.error) {
@@ -77,7 +77,7 @@ export function useTask() {
 
         return summary;
 
-    }
+    }, [])
 
     const getTasks = async (params: SearchTaskParams) => {
 
@@ -87,7 +87,7 @@ export function useTask() {
             return response.error
         }
 
-        dispatch({ type: 'SET_TASKS', payload: response.data })
+        dispatch({ type: 'SET_TASKS', payload: response.data.items })
 
         return null
     }

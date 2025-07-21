@@ -39,7 +39,9 @@ export function TaskFilterBar() {
         const interval = setTimeout(() => {
             setFilters({
                 status: btnStatus[isSelected],
-                q: query
+                q: query,
+                limit:10,
+                page:1
             })
 
         }, 500);
@@ -60,9 +62,9 @@ export function TaskFilterBar() {
                     <input type="text" onChange={handleChange} className="inline-flex items-center h-9 w-full px-9 text-sm outline outline-gray-200 focus:outline-gray-900 rounded-md" placeholder="Search Tasks..." value={query} />
                 </div>
                 <div className="space-x-2 ml-3">
-                    <button id="btn-all" onClick={handleClick} className={`inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ${isSelected == "btn-all" ? "bg-blue-600 text-white hover:bg-blue-700" : "outline outline-gray-200 hover:bg-gray-300"}  disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3`}>All</button>
-                    <button id="btn-active" onClick={handleClick} className={`inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ${isSelected == "btn-active" ? "bg-blue-600 text-white hover:bg-blue-700" : "outline outline-gray-200 hover:bg-gray-300"}  disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3`}>Active</button>
-                    <button id="btn-done" onClick={handleClick} className={`inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ${isSelected == "btn-done" ? "bg-blue-600 text-white hover:bg-blue-700" : "outline outline-gray-200 hover:bg-gray-300"}  disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3`}>Done</button>
+                    <button id="btn-all" onClick={handleClick} className={`inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap text-sm font-medium ${isSelected == "btn-all" ? "bg-blue-600 text-white hover:bg-blue-700" : "outline outline-gray-200 hover:bg-gray-300"}  disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3`}>All</button>
+                    <button id="btn-active" onClick={handleClick} className={`inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap text-sm font-medium ${isSelected == "btn-active" ? "bg-blue-600 text-white hover:bg-blue-700" : "outline outline-gray-200 hover:bg-gray-300"}  disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3`}>Active</button>
+                    <button id="btn-done" onClick={handleClick} className={`inline-flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap text-sm font-medium ${isSelected == "btn-done" ? "bg-blue-600 text-white hover:bg-blue-700" : "outline outline-gray-200 hover:bg-gray-300"}  disabled:pointer-events-none disabled:opacity-50 h-9 rounded-md px-3`}>Done</button>
                 </div>
             </div>
         </>

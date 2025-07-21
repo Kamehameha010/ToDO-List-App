@@ -15,7 +15,7 @@ export function TaskProvider(props: PropsWithChildren) {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   return (
-    <TaskContext.Provider value={{ state, dispatch }}>
+    <TaskContext.Provider value={{ state, dispatch  }}>
       {props.children}
     </TaskContext.Provider>
   );

@@ -96,7 +96,7 @@ export default function SignUp() {
                 role="textbox"
               />
               <button
-                className="absolute right-3 top-3 text-gray-400"
+                className="absolute right-3 top-3 text-gray-400 cursor-pointer"
                 type="button"
                 onClick={handleShowPassword}
               >
@@ -111,7 +111,7 @@ export default function SignUp() {
           </div>
 
           <button
-            className={`inline-flex items-center justify-center whitespace-nowrap bg-black text-white text-md font-light rounded-xs hover:bg-neutral-800 ${!isSuccess && "disabled:bg-neutral-500"} px-4 py-2 h-10 w-full`}
+            className={`inline-flex items-center justify-center whitespace-nowrap bg-black text-white text-md font-light rounded-xs hover:bg-neutral-800 cursor-pointer ${!isSuccess && "disabled:bg-neutral-500 disabled:cursor-auto"} px-4 py-2 h-10 w-full`}
             type="submit"
             disabled={!isSuccess}
           >

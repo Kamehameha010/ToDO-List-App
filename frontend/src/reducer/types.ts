@@ -2,6 +2,7 @@ import type { Task } from "../services/task/types";
 
 export type State = {
     tasks: Task[];
+    currentTask?: Task;
 };
 
 export type Action =
@@ -9,3 +10,4 @@ export type Action =
     | { type: 'UPDATE_TASK_STATUS', payload: { _id: string, status: string } }
     | { type: 'DELETE_TASK', payload: { _id: string } }
     | { type: 'SET_TASKS', payload: Task[] }
+    | { type: 'SET_CURRENT_TASK', payload: { _id: string } }

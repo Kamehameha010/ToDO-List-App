@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
 import { Edit, Trash2 } from 'lucide-preact';
+import type { TargetedEvent } from "preact/compat";
+import { useState } from "preact/hooks";
+import { useTask } from "../../../hooks/task/use-task";
 import type { TaskProps } from "./types";
+
+
 
 
 const TaskPriorityColors: Record<string, Record<string, string>> = {
@@ -27,17 +32,35 @@ const TaskPriorityColors: Record<string, Record<string, string>> = {
     }
 };
 
-export function TaskItem({ _id, title, description, priority, created_at, status }: TaskProps) {
+//@ts-nocheck
+export function TaskItem({ _id, title, description, priority, created_at, status, selectedTask }: TaskProps) {
+
+    const { updateStatus } = useTask();
+
+    const [isDone, setIsDone] = useState(status == 'done');
 
     const date_converted = dayjs(created_at).format('DD/MM/YYYY');
-
-    const isDone = status == 'done';
     const taskPriorityColor = TaskPriorityColors[priority];
+
+    const handlechangeStatus = async (e: TargetedEvent<HTMLInputElement, Event>) => {
+        const { checked } = e.currentTarget;
+        const status = checked ? "done" : "active";
+
+        const response = await updateStatus(_id, status);
+
+        if (response) {
+            const { detail, message, status } = response
+            alert(detail)
+            return
+        }
+
+        setIsDone(x => !x);
+    }
     return (
         <>
             <div className="flex items-center gap-4">
                 <div>
-                    <input checked={isDone} className="size-4" type="checkbox" name="status" />
+                    <input checked={isDone} onChange={handlechangeStatus} className="size-4 cursor-pointer" type="checkbox" name="status" />
                 </div>
                 <div className="flex-1 flex flex-col space-y-1">
                     <div className="flex items-center gap-1">
@@ -51,8 +74,19 @@ export function TaskItem({ _id, title, description, priority, created_at, status
                     </div>
                 </div>
                 <div id={_id} className="space-x-2.5">
-                    <button className="inline-flex justify-center items-center whitespace-nowrap text-gray-400 hover:bg-gray-200 hover:text-gray-500 rounded-sm size-5"><Edit className="size-3.5 p-0" /></button>
-                    <button className="inline-flex justify-center items-center whitespace-nowrap text-gray-400 hover:bg-red-100 hover:text-red-500 rounded-sm size-5"><Trash2 className="size-3.5 p-0" /></button>
+                    <button
+                        className="inline-flex justify-center items-center cursor-pointer whitespace-nowrap text-gray-400 hover:bg-gray-200 hover:text-gray-500 rounded-sm size-5"
+                        onClick={selectedTask(_id)}
+                        name={`btn-edit-task-${_id}`}>
+                        <Edit className="size-3.5 p-0" />
+                    </button>
+                    <button
+                        className="inline-flex justify-center items-center cursor-pointer whitespace-nowrap text-gray-400 hover:bg-red-100 hover:text-red-500 rounded-sm size-5"
+                        onClick={selectedTask(_id)}
+                        name={`btn-delete-task-${_id}`}
+                    >
+                        <Trash2 className="size-3.5 p-0" />
+                    </button>
                 </div>
 
             </div>

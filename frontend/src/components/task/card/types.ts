@@ -14,4 +14,5 @@ export type TaskProps = {
     priority: string,
     created_at: number,
     status: string
+    selectedTask: (id: string) => void
 }

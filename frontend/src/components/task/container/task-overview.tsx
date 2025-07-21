@@ -2,9 +2,10 @@ import { useEffect, useState } from "preact/hooks";
 import { useTask } from "../../../hooks/task/use-task";
 import { TaskStatusCounter } from "../card/task-status-counter";
 import type { TaskTitleKeys } from "../card/types";
+import { memo } from "preact/compat";
 
 
-export function TaskOverview() {
+export const TaskOverview = memo(() => {
 
     const [summary, setSummary] = useState<Record<TaskTitleKeys, number> | null>(null);
     const { state, getTaskSummary } = useTask();
@@ -37,4 +38,4 @@ export function TaskOverview() {
         </>
     )
 
-}
+});

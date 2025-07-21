@@ -14,6 +14,17 @@ taskApi.interceptors.request.use((config) => {
     return config;
 }, (error: any) => Promise.reject(error))
 
+taskApi.interceptors.response.use((response => response), (error)=>{
+
+    if(error.response){
+       
+       return error.response 
+
+    }
+
+    return Promise.reject(error);
+})
+
 
 export const createTask = async (task: Task): Promise<TaskResponse> => {
 
@@ -65,7 +76,7 @@ export const updateTask = async (taskId: string, task: Task): Promise<TaskRespon
 
 export const updateTaskStatus = async (taskId: string, status: string): Promise<TaskResponse> => {
 
-    const response = await taskApi.put(`/${taskId}/${status}`);
+    const response = await taskApi.put(`/${taskId}/status/${status}`);
 
     const data = response.data;
 
