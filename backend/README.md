@@ -1,55 +1,77 @@
+
+
 # ToDoList Backend
 
-This is the backend service for the ToDoList application. It provides a RESTful API for managing users and tasks.
+This is the backend for the [ToDo List API exercise](https://roadmap.sh/projects/todo-list-api). It provides a RESTful API for user authentication and personal task management, using JWT authentication via cookies for secure session handling.
+
+
+## Features
+- User registration and login
+- JWT authentication via cookies
+- Create, read, update, and delete tasks (CRUD)
+- Mark tasks as completed or pending
+- Filter and search tasks by status or keyword
 
 ## Tech Stack
 - Python 3.13+
 - FastAPI
-- MongoDB (via Motor)
+- MongoDB (Motor)
+
 
 ## Project Structure
 ```
 backend/
   src/
-    config.py         # Configuration settings
-    main.py           # FastAPI app entry point
-    db/               # Database client and models
+    config.py         # Configuration
+    main.py           # FastAPI app
+    db/               # DB models and client
     routes/           # API routes (v1/auth, v1/tasks)
-    scheme/           # Pydantic models (schemas)
-    utils/            # Utility functions (e.g., auth)
+    scheme/           # Pydantic schemas
+    utils/            # Utilities (auth, security)
     test/             # Backend tests
-  pyproject.toml      # Project dependencies
+  pyproject.toml      # Dependencies
+  README.md           # Backend documentation
 ```
+
 
 ## Getting Started
 
+
 ### Prerequisites
-- Python 3.13 or higher
-- MongoDB instance (local or cloud)
+- Python 3.13+
+- MongoDB
+- Redis
+
 
 ### Installation
-Install dependencies using pip and pyproject.toml:
-   ```sh
-   pip install .
-   ```
+```sh
+pip install .
+```
+
+
 
 ### Configuration
-Set the following environment variables (in `src/config.py` or a `.env` file):
-- `MONGODB_URL`: MongoDB connection string
-- `SECRET_KEY`: Secret key for JWT authentication
-- `ACCESS_TOKEN_EXPIRE_MINUTES`: Token expiration time (minutes)
+Set environment variables (in `.env` or `src/config.py`):
+
+- `MONGO_URI`        : MongoDB connection string (default: `mongodb://localhost:27017`)
+- `MONGO_DBNAME`     : MongoDB database name (default: `Todo`)
+- `APP_TITLE`        : Application title (default: `Todo List API`)
+- `ENV`              : Environment (e.g., `dev`, `prod`) (default: `dev`)
+- `SECRET_KEY`       : JWT secret key (default: `test_phrase`)
+- `DOMAIN_URL`       : Backend domain URL (default: `http://localhost:8000`)
+- `SENTRY_DSN`       : Sentry DSN for error tracking (default: example DSN)
+- `SENTRY_ENV`       : Sentry environment (default: `dev`)
+
 
 ### Running the Server
-Start the server with Uvicorn:
 ```sh
 uvicorn src.main:app --reload
-
-or
-
+# or
 chmod +x ./run.sh
 ./run.sh
 ```
-The API will be available at `http://localhost:8000` by default.
+API available at `http://localhost:8000`
+
 
 ### Running Tests
 ```sh
@@ -57,7 +79,24 @@ pytest src/test/
 ```
 
 ## API Endpoints
-Auth
-- `/v1/register` - Register new user
-- `/v1/login`    - Authenticate user
 
+
+### Auth
+- `POST /v1/register` — Register a new user
+
+- `POST /v1/login` — User login (returns JWT in cookie and JSON)
+
+
+### User
+- `GET /v1/users/me/profile` — Get the authenticated user's profile
+
+
+
+### Tasks (require authentication)
+- `GET /v1/tasks/` — List tasks (supports filters: `q` for search, `status`, `page`, `size` for pagination)
+- `POST /v1/tasks/` — Create a new task (requires JSON body)
+
+- `PUT /v1/tasks/{task_id}` — Update a task (requires JSON body)
+- `PUT /v1/tasks/{task_id}/status/{status}` — Update only the status of a task
+
+- `DELETE /v1/tasks/{task_id}` — Delete a task by ID
